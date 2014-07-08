@@ -194,7 +194,6 @@ function Get-HDInsightStorage {
     # Get storage info
     $storage = GetStorage -clusterName $clusterName
     # display storage
-    #$storage.defaultStorage  | Format-List
     $storage.storageAccounts | Format-List $labels
     Write-Host "Default account: ", $storage.context.StorageAccountName -ForegroundColor Green
     Write-Host "Default container: ", $storage.container -ForegroundColor Green
