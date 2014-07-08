@@ -6,7 +6,11 @@ The primary storage account for an HDInsight cluster is really just an Azure blo
 
 As I encounter other common tasks that can benefit from helper functions, I'll add them to this project.
 
-##Why?
+##Contributing
+
+If you have things you'd like to see in this collection, add an issue using the issues link. If you have something you'd like to contribute, fork this repository, write the code, test it, then send a pull request. 
+
+##Why do this?
 
 Because actions like uploading and downloading files are things you do every day, so it makes sense to encapsulate them in a nice function, rather than writing 5+ lines of code everytime you write a new script to upload something, run a job, and download the results.
 
