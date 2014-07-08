@@ -4,7 +4,7 @@ Currently this is just a module containing some helpers that make life with HDIn
 
 ##Why?
 
-Because actions like uploading and downloading files are things you do every day, so it makes more sense to encapsulate them in a nice function than to write 5+ lines of code everytime you write a new script to upload something, run a job, and download the results.
+Because actions like uploading and downloading files are things you do every day, so it makes sense to encapsulate them in a nice function, rather than writing 5+ lines of code everytime you write a new script to upload something, run a job, and download the results.
 
 ##Installing
 
