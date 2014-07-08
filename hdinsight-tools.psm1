@@ -134,10 +134,10 @@ function Get-HDInsightFile {
 .DESCRIPTION
     Lists files stored in the HDInsight cluster primary storage
 .EXAMPLE
-    Find-Wasb -Path "example/data/data.txt"
+    Find-HDInsightFile -Path "example/data/data.txt"
         -clusterName "MyHDInsightCluster"
 .EXAMPLE
-    Find-Wasb -Prefix "example*"
+    Find-HDInsightFile -Prefix "example*"
         -clusterName "MyHDInsightCluster"
 #>
 function Find-HDInsightFile {
@@ -164,6 +164,43 @@ function Find-HDInsightFile {
                          -Container $storage.container `
                          -Context $storage.context
 }
+
+<#
+.SYNOPSIS
+    Gets all storage and keys associated with the cluster
+.DESCRIPTION
+    Gets all storage and keys associated with the cluster
+.EXAMPLE
+    Get-HDInsightStorage -clusterName "MyHDInsightCluster"
+
+#>
+function Get-HDInsightStorage {
+[CmdletBinding(SupportsShouldProcess = $true)]
+    param(
+        #The name of the HDInsight cluster
+        [Parameter(Mandatory = $true)]
+        [String]$clusterName
+    )
+
+    Set-StrictMode -Version 3
+
+    # Is the Azure module installed?
+    FindAzure
+
+    # Labels for formatted list
+    $labels =  @{Expression={$_.Name};Label="Storage Account"}, `
+              @{Expression={$_.Value};Label="Account Key"}
+
+    # Get storage info
+    $storage = GetStorage -clusterName $clusterName
+    # display storage
+    #$storage.defaultStorage  | Format-List
+    $storage.storageAccounts | Format-List $labels
+    Write-Host "Default account: ", $storage.context.StorageAccountName -ForegroundColor Green
+    Write-Host "Default container: ", $storage.container -ForegroundColor Green
+
+}
+
 
 function FindAzure {
     # Is the Azure module installed?
@@ -192,17 +229,26 @@ function GetStorage {
     }
     # Create a return object for context & container
     $return = @{}
-
+    $storageAccounts = @{}
     # Get the primary storage account information
     $storageAccountName = $hdi.DefaultStorageAccount.StorageAccountName.Split(".",2)[0]
     $storageAccountKey = $hdi.DefaultStorageAccount.StorageAccountKey
+    # Build the hash of storage account name/keys
+    $storageAccounts.Add($hdi.DefaultStorageAccount.StorageAccountName, $storageAccountKey)
+    foreach($account in $hdi.StorageAccounts)
+    {
+        $storageAccounts.Add($account.StorageAccountName, $account.StorageAccountKey)
+    }
     # Get the storage context, as we can't depend
     # on using the default storage context
     $return.context = New-AzureStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
     # Get the container, so we know where to
     # find/store blobs
     $return.container = $hdi.DefaultStorageAccount.StorageContainerName
-    
+    # Return storage accounts to support finding all accounts for
+    # a cluster
+    $return.storageAccounts = $storageAccounts
+
     return $return
 }
 # Only export the verb-phrase things
