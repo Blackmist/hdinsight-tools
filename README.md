@@ -1,6 +1,10 @@
-##HDInsight Tools
+##PowerShell helper functions for Azure HDInsight
 
-Currently this is just a module containing some helpers that make life with HDInsight easier.
+This is a collection of helper functions I've created for working with HDInsight. Currently it provides functions for uploading (add,) downloading (get,) listing (find,) and deleting (remove,) operations on files in the HDInsight cluster primary storage account.
+
+The primary storage account for an HDInsight cluster is really just an Azure blob, so these helpers are really just using the Azure PowerShell cmdlets for blob operations. But, they query your HDInsight cluster to figure out the storage to use, so you only have to know the cluster name for these operations.
+
+As I encounter other common tasks that can benefit from helper functions, I'll add them to this project.
 
 ##Why?
 
