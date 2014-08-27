@@ -203,7 +203,7 @@ function Get-HDInsightStorage {
 
 function FindAzure {
     # Is the Azure module installed?
-    if (-not(Get-Module -ListAvailable Azure))
+    if (-not(Get-Module Azure))
     {
         throw "Windows Azure PowerShell not found! For help, see http://www.windowsazure.com/en-us/documentation/articles/install-configure-powershell/"
     }
