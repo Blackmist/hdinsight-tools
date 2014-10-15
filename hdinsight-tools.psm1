@@ -238,9 +238,12 @@ function GetStorage {
     {
         $storageAccounts.Add($account.StorageAccountName, $account.StorageAccountKey)
     }
+    # Get current cloud environment name
+    $cloudEnv=Get-AzureEnvironment|where{ $_.ServiceEndpoint -eq (Get-AzureSubscription -Current).ServiceEndpoint}
+    $cloudEnvName=$cloudEnv.EnvironmentName
     # Get the storage context, as we can't depend
     # on using the default storage context
-    $return.context = New-AzureStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey
+    $return.context = New-AzureStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -Environment $cloudEnvName
     # Get the container, so we know where to
     # find/store blobs
     $return.container = $hdi.DefaultStorageAccount.StorageContainerName
