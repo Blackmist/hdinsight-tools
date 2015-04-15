@@ -239,8 +239,8 @@ function GetStorage {
         $storageAccounts.Add($account.StorageAccountName, $account.StorageAccountKey)
     }
     # Get current cloud environment name
-    $cloudEnv=Get-AzureEnvironment|where{ $_.ServiceEndpoint -eq (Get-AzureSubscription -Current).ServiceEndpoint}
-    $cloudEnvName=$cloudEnv.EnvironmentName
+    $cloudEnv=Get-AzureSubscription -Current
+    $cloudEnvName=$cloudEnv.Environment
     # Get the storage context, as we can't depend
     # on using the default storage context
     $return.context = New-AzureStorageContext -StorageAccountName $storageAccountName -StorageAccountKey $storageAccountKey -Environment $cloudEnvName
