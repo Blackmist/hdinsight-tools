@@ -36,6 +36,18 @@ You must have an active Azure subscription to use this. You must also have an ac
 
 -	**Get-HDInsightStorage** - Lists the storage account(s) associated with your HDInsight cluster. Mostly useful if you are going to use some other tool like [AzCopy](http://aka.ms/azcopy)
 
+All the *-WASB cmdlets expect a WASB style path, which can be specified through position or the -wasbPath parameter. The following are acceptable path formats:
+
+-	path/to/something.ext
+
+-	/path/to/something.ext
+
+-	wasb:///path/to/something.ext
+
+-	wasb://container@storageaccountname.blob.windows.net/path/to/something.ext
+
+So this should sync up with the paths you'd use inside HDInsight.
+
 ###Obsolete cmdlets
 
 These were the previous cmdlets included in this module. They are still there, but flagged as obsolete. They didn't use WASB style paths, which always bugged me. I'll remove them in a future version.
