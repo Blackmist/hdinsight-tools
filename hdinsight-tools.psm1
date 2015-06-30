@@ -320,7 +320,6 @@ function Find-WASB {
 
     # Get the blob
     Get-AzureStorageBlobContent -Blob $wasb.resource `
-                                -Destination $localPath `
                                 -Container $wasb.container `
                                 -Context $wasb.context
 
